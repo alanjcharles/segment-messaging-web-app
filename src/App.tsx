@@ -231,7 +231,7 @@ function App() {
         {titleChoices.length > 0 && (
           <Accordion>
             <AccordionSummary>
-              <h3>Choose Title  {selectedTitleIndex > -1 ? '✅' : '❓'}</h3>
+              <h3>Choose Title  {selectedTitleIndex > -1 ? '✅' : '❓'} </h3>
             </AccordionSummary>
             <AccordionDetails>
               <ol>
