@@ -24,12 +24,16 @@
   color: white;
 }
 
+h3 {
+  margin: 0;
+}
+
 .App-link {
   color: #61dafb;
 }
 
 .selected {
-  border: 3px solid red;
+  border: 3px solid rgb(23, 165, 23);
 }
 @keyframes App-logo-spin {
   from {

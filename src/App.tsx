@@ -4,6 +4,9 @@ import {
   Typography,
   TextField,
   Button,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails
 } from '@mui/material';
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
@@ -36,9 +39,9 @@ function App() {
   const [imageChoices, setImageChoices] = useState<string[]>([]);
   const [message, setMessage] = useState<Message>();
 
-  const [selectedTitleIndex, setTitleIndex] = useState<number>();
-  const [selectedContentIndex, setContentIndex] = useState<number>();
-  const [selectedImageIndex, setImageIndex] = useState<number>();
+  const [selectedTitleIndex, setTitleIndex] = useState<number>(-1);
+  const [selectedContentIndex, setContentIndex] = useState<number>(-1);
+  const [selectedImageIndex, setImageIndex] = useState<number>(-1);
 
   const sendJson = async (data: any, url: string) => {
 
@@ -122,15 +125,32 @@ function App() {
     //@ts-ignore
     let cleanTitle = selectedTitle.replace(/"/g, '')
     console.log('TITLE INDEX', cleanTitle);
+
+    if (selectedTitleIndex != i) {
+      setTitleIndex(i)
+    } else {
+      setTitleIndex(-1)
+      cleanTitle = ''
+    }
+
+
     //@ts-ignore
     setMessage({ ...message, Title: cleanTitle })
   }
   const selectContent = (i: number) => {
     let selectedContent = contentChoices[i]
-    setContentIndex(i)
-    //@ts-ignore
+
     let cleanContent = selectedContent.replace(/"/g, '')
     console.log('Content INDEX', cleanContent);
+
+    if (selectedContentIndex != i) {
+      setContentIndex(i)
+
+    } else {
+      setContentIndex(-1)
+      cleanContent = ''
+    }
+
     //@ts-ignore
     setMessage({ ...message, Content: cleanContent })
   }
@@ -140,6 +160,16 @@ function App() {
     //@ts-ignore
     let cleanImage = selectedImage.replace(/"/g, '')
     console.log('Image INDEX', cleanImage);
+
+
+    if (selectedImageIndex != i) {
+      setImageIndex(i)
+    } else {
+      setImageIndex(-1)
+      cleanImage = ''
+    }
+
+
     //@ts-ignore
     setMessage({ ...message, Image: cleanImage })
   }
@@ -154,7 +184,7 @@ function App() {
           {...register("Title")}
           variant="outlined"
           margin="normal"
-          label="Title"
+          label="Prompt for Title"
           fullWidth
           required
         />
@@ -162,7 +192,7 @@ function App() {
           {...register("Content")}
           variant="outlined"
           margin="normal"
-          label="Content"
+          label="Prompt for Content"
           fullWidth
           required
         />
@@ -170,7 +200,7 @@ function App() {
           {...register("Image")}
           variant="outlined"
           margin="normal"
-          label="Image"
+          label="Prompt for Image"
           fullWidth
           required
         />
@@ -197,44 +227,49 @@ function App() {
         >
           Generate
         </Button>
+
         {titleChoices.length > 0 && (
-          <>
-            <div>
-              <h2>
-                Choose Title
-              </h2>
+          <Accordion>
+            <AccordionSummary>
+              <h3>Choose Title  {selectedTitleIndex > -1 ? '✅' : '❓'}</h3>
+            </AccordionSummary>
+            <AccordionDetails>
               <ol>
                 {titleChoices.map((title, i) => <li className={(i === selectedTitleIndex) ? 'selected' : ''} onClick={() => selectTitle(i)} key={i}> {title} </li>)}
               </ol>
-            </div>
-          </>
+            </AccordionDetails>
+          </Accordion>
         )}
 
         {contentChoices.length > 0 && (
-          <>
-            <div>
-              <h2>
-                Choose Content
-              </h2>
+          <Accordion>
+            <AccordionSummary>
+              <h3>
+                Choose Content {selectedContentIndex > -1 ? '✅' : '❓'}
+              </h3>
+            </AccordionSummary>
+            <AccordionDetails>
               <ol>
                 {contentChoices.map((content, i) => <li className={(i === selectedContentIndex) ? 'selected' : ''} onClick={() => selectContent(i)} key={i}> {content} </li>)}
               </ol>
-            </div>
-          </>
+            </AccordionDetails>
+          </Accordion>
         )}
 
 
         {imageChoices.length > 0 && (
-          <>
-            <div>
-              <h2>
-                Choose Image
-              </h2>
+          <Accordion>
+            <AccordionSummary>
+              <h3>
+                Choose Image {selectedImageIndex > -1 ? '✅' : '❓'}
+              </h3>
+            </AccordionSummary>
+            <AccordionDetails>
               <section>
                 {imageChoices.map((url, i) => <img className={(i === selectedImageIndex) ? 'selected' : ''} onClick={() => selectImage(i)} key={i} src={url} />)}
               </section>
-            </div>
-          </>
+            </AccordionDetails>
+          </Accordion>
         )}
 
         {json && (
