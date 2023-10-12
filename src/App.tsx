@@ -97,6 +97,18 @@ function App() {
     }
 
     //prompt for image 
+    const imagePromptRequest = new XMLHttpRequest();
+    imagePromptRequest.open("POST", "http://localhost:3024/ai/image/gen");
+    imagePromptRequest.setRequestHeader("Content-type", "application/json");
+    imagePromptRequest.send(JSON.stringify({ prompt: formInputs.Image }));
+
+    imagePromptRequest.onreadystatechange = function () {//Call a function when the state changes.
+      if (imagePromptRequest.readyState === 4 && imagePromptRequest.status === 200) {
+        let parsedContent = JSON.parse(imagePromptRequest.response)
+        console.log("DIDIER: response: ", parsedContent)
+        setImageChoices(parsedContent.urls)
+      }
+    }
 
     //make the request(s) to service
     //set data for each request
@@ -119,6 +131,15 @@ function App() {
     console.log('Content INDEX', cleanContent);
     //@ts-ignore
     setMessage({ ...message, Title: cleanContent })
+  }
+  const selectImage = (i: number) => {
+    let selectedImage = imageChoices[i]
+    setImageIndex(i)
+    //@ts-ignore
+    let cleanImage = selectedImage.replace(/"/g, '')
+    console.log('Image INDEX', cleanImage);
+    //@ts-ignore
+    setMessage({ ...message, Title: cleanImage })
   }
 
   return (
@@ -177,7 +198,7 @@ function App() {
                 Choose Title
               </h2>
               <ol>
-                {titleChoices.map((title, i) => <li className={ (i === selectedTitleIndex ) ? 'selected' : ''} onClick={() => selectTitle(i)} key={i}> {title} </li>)}
+                {titleChoices.map((title, i) => <li className={(i === selectedTitleIndex) ? 'selected' : ''} onClick={() => selectTitle(i)} key={i}> {title} </li>)}
               </ol>
             </div>
           </>
@@ -190,8 +211,22 @@ function App() {
                 Choose Content
               </h2>
               <ol>
-                {contentChoices.map((content, i) => <li className={ (i === selectedContentIndex ) ? 'selected' : ''} onClick={() => selectContent(i)} key={i}> {content} </li>)}
+                {contentChoices.map((content, i) => <li className={(i === selectedContentIndex) ? 'selected' : ''} onClick={() => selectContent(i)} key={i}> {content} </li>)}
               </ol>
+            </div>
+          </>
+        )}
+
+
+        {imageChoices.length > 0 && (
+          <>
+            <div>
+              <h2>
+                Choose Image
+              </h2>
+              <section>
+                {imageChoices.map((url, i) => <img className={(i === selectedImageIndex) ? 'selected' : ''} onClick={() => selectImage(i)} key={i} src={url} />)}
+              </section>
             </div>
           </>
         )}
