@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import './App.css';
 interface FormInput {
-  PromptForTitle: string;
+  Title: string;
   Content: string;
   Image: string;
 }
@@ -32,10 +32,13 @@ function App() {
   const [json, setJson] = useState<string>();
   const [status, setStatus] = useState<string>();
   const [titleChoices, setTitleChoices] = useState<string[]>([]);
-  const [contentChoices, setContentChoices] = useState<[string]>();
-  const [imageChoices, setImageChoices] = useState<[string]>();
+  const [contentChoices, setContentChoices] = useState<string[]>([]);
+  const [imageChoices, setImageChoices] = useState<string[]>([]);
   const [message, setMessage] = useState<Message>();
+
   const [selectedTitleIndex, setTitleIndex] = useState<number>();
+  const [selectedContentIndex, setContentIndex] = useState<number>();
+  const [selectedImageIndex, setImageIndex] = useState<number>();
 
   const sendJson = async (data: any, url: string) => {
 
@@ -49,7 +52,7 @@ function App() {
 
   const onSubmit = async (data: FormInput) => {
     let message: Message = {
-      Title: data.PromptForTitle,
+      Title: data.Title,
       Content: data.Content,
       Image: data.Image
     }
@@ -63,26 +66,35 @@ function App() {
 
   const generateContent = () => {
     let formInputs = getValues()
-
-    console.log('***VALUES***', formInputs);
+    console.log("generateContent()")
     //prompt for title
 
     const titlePromptRequest = new XMLHttpRequest();
     titlePromptRequest.open("POST", "http://localhost:3024/ai/text/gen");
     titlePromptRequest.setRequestHeader("Content-type", "application/json");
-    titlePromptRequest.send(JSON.stringify({ prompt: formInputs.PromptForTitle }));
-    let callbackCounter = 0;
+    titlePromptRequest.send(JSON.stringify({ prompt: formInputs.Title }));
 
 
     titlePromptRequest.onreadystatechange = function () {//Call a function when the state changes.
       if (titlePromptRequest.readyState === 4 && titlePromptRequest.status === 200) {
-        console.log('****in callback****', callbackCounter++)
         let parsedTitle = JSON.parse(titlePromptRequest.response)
         setTitleChoices(parsedTitle.choices)
-
       }
     }
+
     //prompt for content
+    const contentPromptRequest = new XMLHttpRequest();
+    contentPromptRequest.open("POST", "http://localhost:3024/ai/text/gen");
+    contentPromptRequest.setRequestHeader("Content-type", "application/json");
+    contentPromptRequest.send(JSON.stringify({ prompt: formInputs.Content }));
+
+
+    contentPromptRequest.onreadystatechange = function () {//Call a function when the state changes.
+      if (contentPromptRequest.readyState === 4 && contentPromptRequest.status === 200) {
+        let parsedContent = JSON.parse(contentPromptRequest.response)
+        setContentChoices(parsedContent.choices)
+      }
+    }
 
     //prompt for image 
 
@@ -91,15 +103,22 @@ function App() {
   }
 
   const selectTitle = (i: number) => {
-    // console.log('TITLE INDEX', i);
     let selectedTitle = titleChoices[i]
     setTitleIndex(i)
     //@ts-ignore
     let cleanTitle = selectedTitle.replace(/"/g, '')
     console.log('TITLE INDEX', cleanTitle);
-
     //@ts-ignore
     setMessage({ ...message, Title: cleanTitle })
+  }
+  const selectContent = (i: number) => {
+    let selectedContent = contentChoices[i]
+    setContentIndex(i)
+    //@ts-ignore
+    let cleanContent = selectedContent.replace(/"/g, '')
+    console.log('Content INDEX', cleanContent);
+    //@ts-ignore
+    setMessage({ ...message, Title: cleanContent })
   }
 
   return (
@@ -109,7 +128,7 @@ function App() {
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <TextField
-          {...register("PromptForTitle")}
+          {...register("Title")}
           variant="outlined"
           margin="normal"
           label="Title"
@@ -145,13 +164,13 @@ function App() {
           type="button"
           fullWidth
           variant="contained"
-          color="primary"
+          color="secondary"
           className={"generateButton"}
           onClick={generateContent}
         >
           Generate
         </Button>
-        {titleChoices && (
+        {titleChoices.length > 0 && (
           <>
             <div>
               <h2>
@@ -159,6 +178,19 @@ function App() {
               </h2>
               <ol>
                 {titleChoices.map((title, i) => <li className={ (i === selectedTitleIndex ) ? 'selected' : ''} onClick={() => selectTitle(i)} key={i}> {title} </li>)}
+              </ol>
+            </div>
+          </>
+        )}
+
+        {contentChoices.length > 0 && (
+          <>
+            <div>
+              <h2>
+                Choose Content
+              </h2>
+              <ol>
+                {contentChoices.map((content, i) => <li className={ (i === selectedContentIndex ) ? 'selected' : ''} onClick={() => selectContent(i)} key={i}> {content} </li>)}
               </ol>
             </div>
           </>
