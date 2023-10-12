@@ -51,17 +51,19 @@ function App() {
 
 
   const onSubmit = async (data: FormInput) => {
-    let message: Message = {
-      Title: data.Title,
-      Content: data.Content,
-      Image: data.Image
+
+    if (message && message.Title && message.Content && message.Image) {
+      // Use the data from the Message object we've been building.
+      let messageCopy = JSON.parse(JSON.stringify(message))
+      messageCopy.Id = Date.now();
+      const stringifiedData = JSON.stringify(messageCopy);
+      console.log('****ONSUBMIT STRINGIFIED DATA', stringifiedData);
+      const setResponse = await sendJson(message, 'http://localhost:3023/notifications')
+      setJson(stringifiedData);
+      setStatus(setResponse);
+    } else {
+      console.log("No message ready to be sent.")
     }
-    message.Id = Date.now();
-    const stringifiedData = JSON.stringify(message);
-    console.log('****ONSUBMIT STRINGIFIED DATA', stringifiedData);
-    const setResponse = await sendJson(message, 'http://localhost:3023/notifications')
-    setJson(stringifiedData);
-    setStatus(setResponse);
   };
 
   const generateContent = () => {
@@ -130,7 +132,7 @@ function App() {
     let cleanContent = selectedContent.replace(/"/g, '')
     console.log('Content INDEX', cleanContent);
     //@ts-ignore
-    setMessage({ ...message, Title: cleanContent })
+    setMessage({ ...message, Content: cleanContent })
   }
   const selectImage = (i: number) => {
     let selectedImage = imageChoices[i]
@@ -139,7 +141,7 @@ function App() {
     let cleanImage = selectedImage.replace(/"/g, '')
     console.log('Image INDEX', cleanImage);
     //@ts-ignore
-    setMessage({ ...message, Title: cleanImage })
+    setMessage({ ...message, Image: cleanImage })
   }
 
   return (
@@ -172,15 +174,19 @@ function App() {
           fullWidth
           required
         />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={"submitButton"}
-        >
-          Start Campaign
-        </Button>
+        {true && (
+          <Button
+            disabled={!(message && message.Title && message.Content && message.Image)}
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={"submitButton"}
+          >
+            Start Campaign
+          </Button>
+        )}
+
         <Button
           type="button"
           fullWidth

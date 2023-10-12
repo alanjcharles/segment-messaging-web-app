@@ -29,7 +29,7 @@
 }
 
 .selected {
-  border: 1px solid blue;
+  border: 3px solid red;
 }
 @keyframes App-logo-spin {
   from {
