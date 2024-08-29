@@ -43,3 +43,100 @@ h3 {
     transform: rotate(360deg);
   }
 }
+
+
+@font-face {
+  font-family: "Twilio-Bold";
+  src: local("TwilioSansMono-Bold"), 
+  url("././assets/fonts/TwilioSansMono-BoldItl.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Twilio-Bold-Itl";
+  src: local("TwilioSansMono-BoldItl"), 
+  url("././assets/fonts/TwilioSansMono-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Twilio-ExtraBold";
+  src: local("TwilioSansMono-Extrabold"), 
+  url("././assets/fonts/TwilioSansMono-Extrabold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Twilio-ExtraBold-Itl";
+  src: local("TwilioSansMono-ExtraboldItl"), 
+  url("././assets/fonts/TwilioSansMono-ExtraboldItl.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Twilio-Heavy";
+  src: local("TwilioSansMono-Heavy"), 
+  url("././assets/fonts/TwilioSansMono-Heavy.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Twilio-Heavy-Itl";
+  src: local("TwilioSansMono-HeavyItl"), 
+  url("././assets/fonts/TwilioSansMono-HeavyItl.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Twilio-Light";
+  src: local("TwilioSansMono-Light"), 
+  url("././assets/fonts/TwilioSansMono-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Twilio-Light-Itl";
+  src: local("TwilioSansMono-LightItl"), 
+  url("././assets/fonts/TwilioSansMono-LightItl.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Twilio-Medium";
+  src: local("TwilioSansMono-Medium"), 
+  url("././assets/fonts/TwilioSansMono-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Twilio-Medium-Itl";
+  src: local("TwilioSansMono-MediumItl"), 
+  url("././assets/fonts/TwilioSansMono-MediumItl.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Twilio-Regular";
+  src: local("TwilioSansMono-Regular"), 
+  url("././assets/fonts/TwilioSansMono-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Twilio-Regular-Itl";
+  src: local("TwilioSansMono-RegularItl"), 
+  url("././assets/fonts/TwilioSansMono-RegularItl.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Twilio-SemiBold";
+  src: local("TwilioSansMono-Semibold"), 
+  url("././assets/fonts/TwilioSansMono-Semibold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Twilio-SemiBold-Itl";
+  src: local("TwilioSansMono-SemiboldItl"), 
+  url("././assets/fonts/TwilioSansMono-SemiboldItl.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Twilio-Retina";
+  src: local("TwilioSansMono-Retina"), 
+  url("././assets/fonts/TwilioSansMono-Retina.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Twilio-Retina-Itl";
+  src: local("TwilioSansMono-RetinaItl"), 
+  url("././assets/fonts/TwilioSansMono-RetinaItl.ttf") format("truetype");
+}
