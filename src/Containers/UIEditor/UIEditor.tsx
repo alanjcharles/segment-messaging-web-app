@@ -14,7 +14,7 @@ import ImageComponent from '../../Components/UIEditor/ImageComponent/ImageCompon
 import CTAComponent from '../../Components/UIEditor/CTAComponent/CTAComponent';
 import UIPreview from '../../Components/UIEditor/UIPreview/UIPreview';
 import ActiveTool from '../../Components/UIEditor/ActiveTool/ActiveTool';
-import { set } from 'lodash';
+import ColorPickerPopout from '../../Components/UIEditor/ColorSelector/ColorPickerPopout';
 // Import all Froala Editor plugins;
 // import 'froala-editor/js/plugins.pkgd.min.js';
 
@@ -60,6 +60,8 @@ const UIEditor = () => {
         class: ""
     });
     const [cta, setCta] = useState("");
+    const [color, setColor] = useState('#fff');
+    const [isPickerVisible, setPickerVisible] = useState(false);
     const [addButton, toggleAddButton] = useState(false);
     const [activeTool, setActiveTool] = useState(ToolType.Headline);
     const [campaignInfo, setCampaignInfo] = useState({
@@ -71,7 +73,8 @@ const UIEditor = () => {
             style: ""
         },
         cta: "",
-        button: false
+        button: false,
+        backgroundColor: "#d3d3d3"
     });
 
     //@ts-ignore
@@ -135,10 +138,20 @@ const UIEditor = () => {
         />
       ), [activeTool, headline, handleHeadlineChange, content, handleContentChange, image, handleImageChange, cta, handleCtaChange, addButton, handleButtonToggle]);
     
+
+    //@ts-ignore
+    const handlebackgroundColor = (color) => {
+        setColor(color.hex);
+        setCampaignInfo({...campaignInfo, backgroundColor: color.hex});
+    }
+
     return (    
         <div className="ui-editor-container" id="editor">
             <div className='editor-preview'>
                 <h1 className='ui-editor-title'>Campaign Preview</h1>
+                <div className='color-selector-preview-container'>
+                    <ColorPickerPopout color={color} handleBackgroundColor={handlebackgroundColor} isPickerVisible={isPickerVisible} setPickerVisible={setPickerVisible} />
+                </div>
                 <UIPreview  campaignInfo={campaignInfo}/>
             </div>
             <div className='editor'>
@@ -146,10 +159,9 @@ const UIEditor = () => {
                 <ToolbarComponent setActiveTool={handleActiveTool} />
                 </ToolbarContext.Provider>
                 <div className='active-tool-container'>
-                {MemoizedActiveTool}
+                    {MemoizedActiveTool}
+                </div>
             </div>
-            </div>
-
         </div>
     );
 }

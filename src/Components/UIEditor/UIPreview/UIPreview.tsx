@@ -10,6 +10,7 @@ type UIPreviewProps = {
         cta: string;
         image: ImageProps
         button: boolean;
+        backgroundColor: string;
     }
 }
 
@@ -25,7 +26,7 @@ const UIPreview = ({campaignInfo}: UIPreviewProps) => {
     return (
         <div className="ui-preview-container">
             <div className="inner-preview-container">
-                <div className="promo-preview-container">
+                <div style={{ backgroundColor: campaignInfo.backgroundColor }} className="promo-preview-container">
                     <div className="headline-preview">
                         <FroalaEditorView model={campaignInfo.headline} />
                     </div>
