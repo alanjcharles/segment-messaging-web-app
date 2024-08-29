@@ -11,6 +11,7 @@ type UIPreviewProps = {
         image: ImageProps
         button: boolean;
         backgroundColor: string;
+        buttonColor: string;
     }
 }
 
@@ -38,7 +39,7 @@ const UIPreview = ({campaignInfo}: UIPreviewProps) => {
                     </div>
                     {campaignInfo.button === true ? (
                         <div className="cta-button-container">
-                            <button className="cta-button">{campaignInfo.cta}</button>
+                            <button style={{ backgroundColor: campaignInfo.buttonColor }}  className="cta-button">{campaignInfo.cta}</button>
                         </div>
                     ): null}
                 </div>

@@ -62,6 +62,8 @@ const UIEditor = () => {
     const [cta, setCta] = useState("");
     const [color, setColor] = useState('#fff');
     const [isPickerVisible, setPickerVisible] = useState(false);
+    const [isButtonPickerVisible, setButtonPickerVisible] = useState(false);
+
     const [addButton, toggleAddButton] = useState(false);
     const [activeTool, setActiveTool] = useState(ToolType.Headline);
     const [campaignInfo, setCampaignInfo] = useState({
@@ -74,7 +76,8 @@ const UIEditor = () => {
         },
         cta: "",
         button: false,
-        backgroundColor: "#d3d3d3"
+        backgroundColor: "#d3d3d3",
+        buttonColor: "#f5f5f5"
     });
 
     //@ts-ignore
@@ -121,6 +124,11 @@ const UIEditor = () => {
     }, [campaignInfo]);   
     
     //@ts-ignore
+    const handleButtonColor = useCallback((color) => {
+        setColor(color.hex);
+        setCampaignInfo({...campaignInfo, buttonColor: color.hex});
+    }, [campaignInfo]);
+    //@ts-ignore
     const MemoizedActiveTool = useMemo(() => (
         <ActiveTool
         //@ts-ignore
@@ -135,8 +143,12 @@ const UIEditor = () => {
           handleCtaChange={handleCtaChange}
           addButton={addButton}
           handleButtonToggle={handleButtonToggle}
+          handleButtonColor={handleButtonColor}
+          color={color}
+          isButtonPickerVisible={isButtonPickerVisible}
+          setButtonPickerVisible={setButtonPickerVisible}
         />
-      ), [activeTool, headline, handleHeadlineChange, content, handleContentChange, image, handleImageChange, cta, handleCtaChange, addButton, handleButtonToggle]);
+      ), [activeTool, headline, handleHeadlineChange, content, handleContentChange, image, handleImageChange, cta, handleCtaChange, addButton, handleButtonToggle, color, isButtonPickerVisible, setButtonPickerVisible, handleButtonColor]);
     
 
     //@ts-ignore
@@ -144,6 +156,8 @@ const UIEditor = () => {
         setColor(color.hex);
         setCampaignInfo({...campaignInfo, backgroundColor: color.hex});
     }
+
+
 
     return (    
         <div className="ui-editor-container" id="editor">
