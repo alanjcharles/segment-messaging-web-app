@@ -54,7 +54,11 @@ const UIEditor = () => {
     const [model,setModel] = useState("Example Set");
     const [headline, setHeadline] = useState("");
     const [content, setContent] = useState("");
-    const [image, setImage] = useState("");
+    const [image, setImage] = useState({
+        src: "https://fakeimg.pl/350x200/?text=Click to add image",
+        style: "",
+        class: ""
+    });
     const [cta, setCta] = useState("");
     const [addButton, toggleAddButton] = useState(false);
     const [activeTool, setActiveTool] = useState(ToolType.Headline);
@@ -62,7 +66,7 @@ const UIEditor = () => {
         headline: "",
         content: "",
         image: {
-            src: "https://fakeimg.pl/350x200/?text=Click to test",
+            src: "https://fakeimg.pl/350x200/?text=Click to add image",
             class: "",
             style: ""
         },
@@ -120,13 +124,15 @@ const UIEditor = () => {
           activeTool={activeTool}
           headline={headline}
           handleHeadlineChange={handleHeadlineChange}
+          content={content}
           handleContentChange={handleContentChange}
+          image={image}
           handleImageChange={handleImageChange}
           handleCtaChange={handleCtaChange}
           addButton={addButton}
           handleButtonToggle={handleButtonToggle}
         />
-      ), [activeTool, headline, handleHeadlineChange, handleContentChange, handleImageChange, handleCtaChange, addButton, handleButtonToggle]);
+      ), [activeTool, headline, handleHeadlineChange, content, handleContentChange, image, handleImageChange, handleCtaChange, addButton, handleButtonToggle]);
     
     return (    
         <div className="ui-editor-container" id="editor">

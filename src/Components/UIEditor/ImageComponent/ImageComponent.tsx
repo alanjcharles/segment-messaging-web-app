@@ -1,20 +1,22 @@
-import React, {useState} from "react";
+import React from "react";
 import "./image-component.css";
 import FroalaEditorImg from "react-froala-wysiwyg/FroalaEditorImg";
 import "froala-editor/css/froala_style.min.css";
 import "froala-editor/css/froala_editor.pkgd.min.css";
 import "froala-editor/js/plugins.pkgd.min.js";
 
+interface Image {
+    src: string;
+    class: string;
+    style: string;
+}
 type ImageComponentProps = {
+    image: Image;   
     handleImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const ImageComponent = ({handleImageChange}: ImageComponentProps) => {
+const ImageComponent = ({image, handleImageChange}: ImageComponentProps) => {
 
-    const [imageModel, setImageModel] = useState({
-        src: "https://fakeimg.pl/350x200/?text=Click to test"
-
-    });
 
     const config = {
 
@@ -47,10 +49,10 @@ const ImageComponent = ({handleImageChange}: ImageComponentProps) => {
     };
 
     return (
-        <div>
-        <h2>Image Editor</h2>
+        <div className="image-editor-container">
+        <h1 className="image-editor-title">Add an Image</h1>
         <FroalaEditorImg
-          model={imageModel}
+          model={image}
           onModelChange={handleImageChange}
           config={config}
         />
