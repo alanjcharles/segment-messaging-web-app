@@ -11,6 +11,7 @@ type UIPreviewProps = {
         image: ImageProps
         button: boolean;
         backgroundColor: string;
+        buttonColor: string;
     }
 }
 
@@ -24,6 +25,7 @@ export type ImageProps = {
 const UIPreview = ({ campaignInfo }: UIPreviewProps) => {
     console.log("CAMPAIGNINFOOOOO", campaignInfo);
     return (
+
         <div className="frame">
             <div className="ui-preview-container">
                 <div className="inner-preview-container">

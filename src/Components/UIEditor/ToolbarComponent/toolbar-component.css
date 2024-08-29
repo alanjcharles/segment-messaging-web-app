@@ -46,3 +46,14 @@
     max-height: 100%;
     object-fit: contain; /* Ensure the image fits within the container while maintaining aspect ratio */
 }
+
+.button-color-picker-button {
+    width: 100%;
+    height: 35px;
+    background-color: #97D7BF;
+    font-family: "Twilio-SemiBold";
+    font-size: 1rem;
+    color: #ffffff;
+    border: none;
+    margin-bottom: 30%;
+}

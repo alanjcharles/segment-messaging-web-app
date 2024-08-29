@@ -2,6 +2,7 @@ import React from "react";
 import "./cta-component.css";
 import FroalaEditorButton from "react-froala-wysiwyg/FroalaEditorButton";
 import { Switch } from "evergreen-ui";
+import ColorPicker from 'react-pick-color';
 import FroalaEditorComponent from 'react-froala-wysiwyg';
 
 type CTAComponentProps = {
@@ -9,9 +10,13 @@ type CTAComponentProps = {
     addButton: boolean;
     toggleAddButton: (value: boolean) => void;
     handleCtaChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleButtonColor: (color: any) => void;
+    color: string;
+    isButtonPickerVisible: boolean;
+    setButtonPickerVisible: (value: boolean) => void;
 }
 
-const CTAComponent = ({ callToAction, addButton, toggleAddButton, handleCtaChange}: CTAComponentProps) => {
+const CTAComponent = ({ callToAction, addButton, toggleAddButton, handleCtaChange, handleButtonColor, color, isButtonPickerVisible, setButtonPickerVisible}: CTAComponentProps) => {
     return (
         <div className="cta-component-container">
             <div className="cta-component">
@@ -29,6 +34,31 @@ const CTAComponent = ({ callToAction, addButton, toggleAddButton, handleCtaChang
             {addButton ? (
                 
             <div className="froala-container">
+                    <div style={{ position: 'relative', display: 'inline-block' }}>
+      <button
+        onClick={() => setButtonPickerVisible(!isButtonPickerVisible)}
+        className='button-color-picker-button'
+      >
+        Change Button Color
+      </button>
+
+      {isButtonPickerVisible && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '40px', // Adjust this value to move the picker relative to the button
+            left: '0',
+            zIndex: '1000',
+            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          <ColorPicker
+            color={color}
+            onChange={color => handleButtonColor(color)}
+          />
+        </div>
+      )}
+    </div>
             <FroalaEditorComponent
                 tag='textarea'
                 onModelChange={handleCtaChange}
