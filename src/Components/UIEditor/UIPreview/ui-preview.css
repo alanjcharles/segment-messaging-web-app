@@ -1,0 +1,58 @@
+.ui-preview-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 60%;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  width: 45%;
+  border-radius: 15px;
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.30);
+  background-color: black;
+}
+
+.inner-preview-container {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 90%;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+    width: 90%;
+    background-color: #ffffff;
+}
+
+.promo-preview-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 75%;
+    background-color: #d3d3d3;
+    border: 1px solid #e0e0e0;
+    width: 80%;
+    border-radius: 15px;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.30);
+}
+
+.headline-preview {
+    font-family: "Twilio-Bold";
+    font-size: 2rem;
+    color: #121C2D;
+}
+
+.cta-button {
+    height: 30px;
+    width: 100%;
+}
+
+.cta-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 12%;
+    width: 70%;
+}
