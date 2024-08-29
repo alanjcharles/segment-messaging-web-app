@@ -6,13 +6,13 @@ import CTAComponent from '../CTAComponent/CTAComponent';
 import { ToolType } from '../../../Containers/UIEditor/UIEditor';
 
 //@ts-ignore
-const ActiveTool = React.memo(({ activeTool, headline, handleHeadlineChange, handleContentChange, handleImageChange, handleCtaChange, addButton, handleButtonToggle }) => {
+const ActiveTool = React.memo(({ activeTool, headline, handleHeadlineChange, content, handleContentChange, handleImageChange, handleCtaChange, addButton, handleButtonToggle }) => {
   return useMemo(() => {
     switch (activeTool) {
       case ToolType.Headline:
         return <HeadlineComponent headline={headline} handleHeadlineChange={handleHeadlineChange} />;
       case ToolType.Content:
-        return <ContentComponent handleContentChange={handleContentChange} />;
+        return <ContentComponent  content={content} handleContentChange={handleContentChange} />;
       case ToolType.Image:
         return <ImageComponent handleImageChange={handleImageChange} />;
       case ToolType.CTA:
@@ -20,7 +20,7 @@ const ActiveTool = React.memo(({ activeTool, headline, handleHeadlineChange, han
       default:
         return <HeadlineComponent headline={headline} handleHeadlineChange={handleHeadlineChange} />;
     }
-  }, [activeTool, headline, handleHeadlineChange, handleContentChange, handleImageChange, handleCtaChange, addButton, handleButtonToggle]);
+  }, [activeTool, headline, handleHeadlineChange, content, handleContentChange, handleImageChange, handleCtaChange, addButton, handleButtonToggle]);
 });
 
 export default ActiveTool;
