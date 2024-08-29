@@ -6,7 +6,7 @@ import CTAComponent from '../CTAComponent/CTAComponent';
 import { ToolType } from '../../../Containers/UIEditor/UIEditor';
 
 //@ts-ignore
-const ActiveTool = React.memo(({ activeTool, headline, handleHeadlineChange, content, handleContentChange, image, handleImageChange, handleCtaChange, addButton, handleButtonToggle }) => {
+const ActiveTool = React.memo(({ activeTool, headline, handleHeadlineChange, content, handleContentChange, image, handleImageChange, callToAction, handleCtaChange, addButton, handleButtonToggle }) => {
   return useMemo(() => {
     switch (activeTool) {
       case ToolType.Headline:
@@ -16,11 +16,11 @@ const ActiveTool = React.memo(({ activeTool, headline, handleHeadlineChange, con
       case ToolType.Image:
         return <ImageComponent image={image} handleImageChange={handleImageChange} />;
       case ToolType.CTA:
-        return <CTAComponent addButton={addButton} toggleAddButton={handleButtonToggle} handleCtaChange={handleCtaChange} />;
+        return <CTAComponent  callToAction={callToAction} addButton={addButton} toggleAddButton={handleButtonToggle} handleCtaChange={handleCtaChange} />;
       default:
         return <HeadlineComponent headline={headline} handleHeadlineChange={handleHeadlineChange} />;
     }
-  }, [activeTool, headline, handleHeadlineChange, content, handleContentChange, image, handleImageChange, handleCtaChange, addButton, handleButtonToggle]);
+  }, [activeTool, headline, handleHeadlineChange, content, handleContentChange, image, handleImageChange, callToAction, handleCtaChange, addButton, handleButtonToggle]);
 });
 
 export default ActiveTool;

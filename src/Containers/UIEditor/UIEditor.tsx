@@ -128,11 +128,12 @@ const UIEditor = () => {
           handleContentChange={handleContentChange}
           image={image}
           handleImageChange={handleImageChange}
+          callToAction={cta}
           handleCtaChange={handleCtaChange}
           addButton={addButton}
           handleButtonToggle={handleButtonToggle}
         />
-      ), [activeTool, headline, handleHeadlineChange, content, handleContentChange, image, handleImageChange, handleCtaChange, addButton, handleButtonToggle]);
+      ), [activeTool, headline, handleHeadlineChange, content, handleContentChange, image, handleImageChange, cta, handleCtaChange, addButton, handleButtonToggle]);
     
     return (    
         <div className="ui-editor-container" id="editor">
