@@ -13,6 +13,11 @@ type HeadlineComponentProps = {
 }
 const HeadlineComponent = ({headline, handleHeadlineChange}: HeadlineComponentProps) => {
 
+    //@ts-ignore
+    const handleFroalaHeadlineChange = (event) => {
+        console.log(event);
+    }
+
     return (
         <div className="headline-container">
             <h1>Headline</h1>
