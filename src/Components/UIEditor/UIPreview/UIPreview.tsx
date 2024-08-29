@@ -21,7 +21,6 @@ export type ImageProps = {
     style: string
 }
 
-
 const UIPreview = ({campaignInfo}: UIPreviewProps) => {
     console.log("CAMPAIGNINFOOOOO", campaignInfo);
     return (
