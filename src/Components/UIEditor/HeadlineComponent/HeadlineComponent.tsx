@@ -4,7 +4,6 @@ import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 
 import FroalaEditorComponent from 'react-froala-wysiwyg';
-import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
 
 
 type HeadlineComponentProps = {
@@ -13,22 +12,21 @@ type HeadlineComponentProps = {
 }
 const HeadlineComponent = ({headline, handleHeadlineChange}: HeadlineComponentProps) => {
 
-    //@ts-ignore
-    const handleFroalaHeadlineChange = (event) => {
-        console.log(event);
-    }
 
     return (
         <div className="headline-container">
-            <h1>Headline</h1>
+            <div className="headline-container-header">
+                <h1 className="headline-container-title">Create A Headline</h1>
+            </div>
+            <div className="froala-container">
             <FroalaEditorComponent
                 tag='textarea'
                 onModelChange={handleHeadlineChange}
                 model={headline}
                 config={{
-                    placeholderText: 'Edit Your Content Here!',
-                    charCounterCount: true,
-                    toolbarInline: true,
+                    placeholderText: 'Card Title...',
+                    charCounterCount: false,
+                    toolbarInline: false,
                     events: {
                         initialized: function() {
                             const editor = this; // 'this' refers to the Froala Editor instance
@@ -38,11 +36,13 @@ const HeadlineComponent = ({headline, handleHeadlineChange}: HeadlineComponentPr
                                 'font-family': 'Twilio-Regular',
                                 'font-size': '1.4rem',
                                 'color': '#0A1433',
+                                'width': '60%',
                             });
                         }
                     },
                 }}
             />
+            </div>
         </div>
     )
 }
