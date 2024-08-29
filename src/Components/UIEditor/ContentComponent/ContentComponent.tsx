@@ -8,37 +8,41 @@ import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
 
 
 type ContentComponentProps = {
+    content: string
     handleContentChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const ContentComponent = ({handleContentChange}: ContentComponentProps) => {
+const ContentComponent = ({content, handleContentChange}: ContentComponentProps) => {
     return (
         <div className="content-container">
-            <h1>Add content</h1>
+            <div className="content-container-header">
+                <h1 className="content-container-title">Add Content</h1>
+            </div>
+            <div className="froala-container">
             <FroalaEditorComponent
-                    tag='textarea'
-                    onModelChange={handleContentChange}
-                    config={{
-                        placeholderText: 'Edit Your Content Here!',
-                        charCounterCount: true,
-                        toolbarInline: true,
-                        events: {
-                            initialized: function() {
-                                const editor = this; // 'this' refers to the Froala Editor instance
+                tag='textarea'
+                onModelChange={handleContentChange}
+                model={content}
+                config={{
+                    placeholderText: 'Card Content...',
+                    charCounterCount: false,
+                    toolbarInline: false,
+                    events: {
+                        initialized: function() {
+                            const editor = this; // 'this' refers to the Froala Editor instance
 
-                                // Apply your custom styles
-                                //@ts-ignore
-                                editor.$el.css({
-                                  'font-family': 'Twilio-Regular',
-                                  'font-size': '1.4rem',
-                                  'color': '#0A1433',
-                                });
-                    
-                                console.log('Editor initialized and styles applied');
-                            }
-                        },
-                    }}
-                />
+                            //@ts-ignore
+                            editor.$el.css({
+                                'font-family': 'Twilio-Regular',
+                                'font-size': '1.4rem',
+                                'color': '#0A1433',
+                                'width': '60%',
+                            });
+                        }
+                    },
+                }}
+            />
+            </div>
         </div>
     )
 }
