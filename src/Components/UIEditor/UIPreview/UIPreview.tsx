@@ -22,26 +22,29 @@ export type ImageProps = {
 }
 
 
-const UIPreview = ({campaignInfo}: UIPreviewProps) => {
+const UIPreview = ({ campaignInfo }: UIPreviewProps) => {
     console.log("CAMPAIGNINFOOOOO", campaignInfo);
     return (
-        <div className="ui-preview-container">
-            <div className="inner-preview-container">
-                <div style={{ backgroundColor: campaignInfo.backgroundColor }} className="promo-preview-container">
-                    <div className="headline-preview">
-                        <FroalaEditorView model={campaignInfo.headline} />
-                    </div>
-                    <div className="image-preview-container">
-                        <img src={campaignInfo.image.src} alt="campaign" className="preview-image"/>
-                    </div>
-                    <div className="content-preview">
-                        <FroalaEditorView model={campaignInfo.content} />
-                    </div>
-                    {campaignInfo.button === true ? (
-                        <div className="cta-button-container">
-                            <button style={{ backgroundColor: campaignInfo.buttonColor }}  className="cta-button">{campaignInfo.cta}</button>
+
+        <div className="frame">
+            <div className="ui-preview-container">
+                <div className="inner-preview-container">
+                    <div style={{ backgroundColor: campaignInfo.backgroundColor }} className="promo-preview-container">
+                        <div className="headline-preview">
+                            <FroalaEditorView model={campaignInfo.headline} />
                         </div>
-                    ): null}
+                        <div className="image-preview-container">
+                            <img src={campaignInfo.image.src} alt="campaign" className="preview-image" />
+                        </div>
+                        <div className="content-preview">
+                            <FroalaEditorView model={campaignInfo.content} />
+                        </div>
+                        {campaignInfo.button === true ? (
+                            <div className="cta-button-container">
+                                <button className="cta-button">{campaignInfo.cta}</button>
+                            </div>
+                        ) : null}
+                    </div>
                 </div>
             </div>
         </div>
