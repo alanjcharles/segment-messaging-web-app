@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo, useCallback} from 'react';
 import './ui-editor.css';
 import ToolbarComponent from '../../Components/UIEditor/ToolbarComponent/ToolbarComponent';
 
@@ -13,7 +13,8 @@ import ContentComponent from '../../Components/UIEditor/ContentComponent/Content
 import ImageComponent from '../../Components/UIEditor/ImageComponent/ImageComponent';
 import CTAComponent from '../../Components/UIEditor/CTAComponent/CTAComponent';
 import UIPreview from '../../Components/UIEditor/UIPreview/UIPreview';
-
+import ActiveTool from '../../Components/UIEditor/ActiveTool/ActiveTool';
+import { set } from 'lodash';
 // Import all Froala Editor plugins;
 // import 'froala-editor/js/plugins.pkgd.min.js';
 
@@ -78,59 +79,55 @@ const UIEditor = () => {
     }
 
     //@ts-ignore
-    const handleHeadlineChange = (event) => {
-        const tempElement = document.createElement("div");
-        tempElement.innerHTML = event;
-        const textValue = tempElement.innerText || tempElement.textContent || "";
-        console.log(textValue);
+    const handleHeadlineChange = useCallback((e) => {
+        setHeadline(e);
+        setCampaignInfo({...campaignInfo, headline: e});
+        console.log(e);
+    }, [campaignInfo]);
 
-        setHeadline(event);
-        setCampaignInfo({...campaignInfo, headline: event});
-    }
-    
     //@ts-ignore
-    const handleContentChange = (event) => {
-        const tempElement = document.createElement("div");
-        tempElement.innerHTML = event;
-        const textValue = tempElement.innerText || tempElement.textContent || "";
-        console.log(textValue);
-    
-        setCampaignInfo({...campaignInfo, content: event});
-    }
+    const handleContentChange = useCallback((e) => {
+        setContent(e);
+        setCampaignInfo({...campaignInfo, content: e});
+        console.log(e);
+    }, [campaignInfo]);
 
-        //@ts-ignore
-    const handleImageChange = (event) => {
-        setCampaignInfo({...campaignInfo, image: event});
-    }
+    //@ts-ignore
+    const handleImageChange = useCallback((e) => {
+        setImage(e);
+        setCampaignInfo({...campaignInfo, image: e});
+        console.log(e);
+    }, [campaignInfo]);
 
-    const handleButtonToggle = () => {
-        console.log('BUTTON TOGGLE');
+    //@ts-ignore
+    const handleButtonToggle = useCallback((e) => {
         toggleAddButton(!addButton);
         setCampaignInfo({...campaignInfo, button: !addButton}); 
-    }
+    }, [campaignInfo, addButton]);
 
     //@ts-ignore
-    const handleCtaChange = (event) => {
+    const handleCtaChange = useCallback((e) => {
         const tempElement = document.createElement("div");
-        tempElement.innerHTML = event;
+        tempElement.innerHTML = e;
         const textValue = tempElement.innerText || tempElement.textContent || "";
         setCampaignInfo({...campaignInfo, cta: textValue});
-    }
-
-    const ActiveTool = () => {
-        switch (activeTool) {
-            case ToolType.Headline:
-                return <div><HeadlineComponent  headline={headline} handleHeadlineChange={handleHeadlineChange}/></div>;
-            case ToolType.Content:
-                return <div><ContentComponent handleContentChange={handleContentChange}/></div>;
-            case ToolType.Image:
-                return <div><ImageComponent handleImageChange={handleImageChange}/></div>;
-            case ToolType.CTA:
-                return <div><CTAComponent addButton={addButton} toggleAddButton={handleButtonToggle} handleCtaChange={handleCtaChange}/></div>;
-            default:
-                return <div><HeadlineComponent headline={headline}  handleHeadlineChange={handleHeadlineChange}/></div>;
-        }
-    }
+    }, [campaignInfo]);   
+    
+    //@ts-ignore
+    const MemoizedActiveTool = useMemo(() => (
+        <ActiveTool
+        //@ts-ignore
+          activeTool={activeTool}
+          headline={headline}
+          handleHeadlineChange={handleHeadlineChange}
+          handleContentChange={handleContentChange}
+          handleImageChange={handleImageChange}
+          handleCtaChange={handleCtaChange}
+          addButton={addButton}
+          handleButtonToggle={handleButtonToggle}
+        />
+      ), [activeTool, headline, handleHeadlineChange, handleContentChange, handleImageChange, handleCtaChange, addButton, handleButtonToggle]);
+    
     return (    
         <div className="ui-editor-container" id="editor">
             <div className='editor-preview'>
@@ -142,7 +139,7 @@ const UIEditor = () => {
                 <ToolbarComponent setActiveTool={handleActiveTool} />
                 </ToolbarContext.Provider>
                 <div className='active-tool-container'>
-                <ActiveTool />
+                {MemoizedActiveTool}
             </div>
             </div>
 
