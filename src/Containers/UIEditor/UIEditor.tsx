@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useCallback} from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import './ui-editor.css';
 import ToolbarComponent from '../../Components/UIEditor/ToolbarComponent/ToolbarComponent';
 
@@ -43,15 +43,15 @@ import ColorPickerPopout from '../../Components/UIEditor/ColorSelector/ColorPick
 
 // Render Froala Editor component.
 // ReactDOM.render(<FroalaEditorComponent tag='textarea'/>, document.getElementById('editor'));
- export enum ToolType {
+export enum ToolType {
     Headline = "headline",
     Content = "content",
     Image = "image",
     CTA = "cta",
- }
+}
 
 const UIEditor = () => {
-    const [model,setModel] = useState("Example Set");
+    const [model, setModel] = useState("Example Set");
     const [headline, setHeadline] = useState("");
     const [content, setContent] = useState("");
     const [image, setImage] = useState({
@@ -91,28 +91,55 @@ const UIEditor = () => {
     //@ts-ignore
     const handleHeadlineChange = useCallback((e) => {
         setHeadline(e);
-        setCampaignInfo({...campaignInfo, headline: e});
+        setCampaignInfo({ ...campaignInfo, headline: e });
         console.log(e);
     }, [campaignInfo]);
 
     //@ts-ignore
     const handleContentChange = useCallback((e) => {
         setContent(e);
-        setCampaignInfo({...campaignInfo, content: e});
+        setCampaignInfo({ ...campaignInfo, content: e });
         console.log(e);
     }, [campaignInfo]);
+
+
+    function blobToBase64(blobUrl: string): Promise<string> {
+        return new Promise((resolve, reject) => {
+            fetch(blobUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        const base64data = reader.result as string;
+                        resolve(base64data);
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(blob);
+                })
+                .catch(reject);
+        });
+    }
 
     //@ts-ignore
     const handleImageChange = useCallback((e) => {
         setImage(e);
-        setCampaignInfo({...campaignInfo, image: e});
+        if (e.src.startsWith("blob")) {
+            blobToBase64(e.src)
+                .then(base64String => {
+                    setCampaignInfo({...campaignInfo, image: {src: base64String   , class: e.class, style: e.style}});
+                })
+                .catch(error => {
+                    console.error('Error converting blob to base64:', error);
+                });
+        }
+
         console.log(e);
     }, [campaignInfo]);
 
     //@ts-ignore
     const handleButtonToggle = useCallback((e) => {
         toggleAddButton(!addButton);
-        setCampaignInfo({...campaignInfo, button: !addButton}); 
+        setCampaignInfo({ ...campaignInfo, button: !addButton });
     }, [campaignInfo, addButton]);
 
     //@ts-ignore
@@ -120,57 +147,57 @@ const UIEditor = () => {
         const tempElement = document.createElement("div");
         tempElement.innerHTML = e;
         const textValue = tempElement.innerText || tempElement.textContent || "";
-        setCampaignInfo({...campaignInfo, cta: textValue});
-    }, [campaignInfo]);   
-    
+        setCampaignInfo({ ...campaignInfo, cta: textValue });
+    }, [campaignInfo]);
+
     //@ts-ignore
     const handleButtonColor = useCallback((color) => {
         setColor(color.hex);
-        setCampaignInfo({...campaignInfo, buttonColor: color.hex});
+        setCampaignInfo({ ...campaignInfo, buttonColor: color.hex });
     }, [campaignInfo]);
     //@ts-ignore
     const MemoizedActiveTool = useMemo(() => (
         <ActiveTool
-        //@ts-ignore
-          activeTool={activeTool}
-          headline={headline}
-          handleHeadlineChange={handleHeadlineChange}
-          content={content}
-          handleContentChange={handleContentChange}
-          image={image}
-          handleImageChange={handleImageChange}
-          callToAction={cta}
-          handleCtaChange={handleCtaChange}
-          addButton={addButton}
-          handleButtonToggle={handleButtonToggle}
-          handleButtonColor={handleButtonColor}
-          color={color}
-          isButtonPickerVisible={isButtonPickerVisible}
-          setButtonPickerVisible={setButtonPickerVisible}
+            //@ts-ignore
+            activeTool={activeTool}
+            headline={headline}
+            handleHeadlineChange={handleHeadlineChange}
+            content={content}
+            handleContentChange={handleContentChange}
+            image={image}
+            handleImageChange={handleImageChange}
+            callToAction={cta}
+            handleCtaChange={handleCtaChange}
+            addButton={addButton}
+            handleButtonToggle={handleButtonToggle}
+            handleButtonColor={handleButtonColor}
+            color={color}
+            isButtonPickerVisible={isButtonPickerVisible}
+            setButtonPickerVisible={setButtonPickerVisible}
         />
-      ), [activeTool, headline, handleHeadlineChange, content, handleContentChange, image, handleImageChange, cta, handleCtaChange, addButton, handleButtonToggle, color, isButtonPickerVisible, setButtonPickerVisible, handleButtonColor]);
-    
+    ), [activeTool, headline, handleHeadlineChange, content, handleContentChange, image, handleImageChange, cta, handleCtaChange, addButton, handleButtonToggle, color, isButtonPickerVisible, setButtonPickerVisible, handleButtonColor]);
+
 
     //@ts-ignore
     const handlebackgroundColor = (color) => {
         setColor(color.hex);
-        setCampaignInfo({...campaignInfo, backgroundColor: color.hex});
+        setCampaignInfo({ ...campaignInfo, backgroundColor: color.hex });
     }
 
 
 
-    return (    
+    return (
         <div className="ui-editor-container" id="editor">
             <div className='editor-preview'>
                 <h1 className='ui-editor-title'>Campaign Preview</h1>
                 <div className='color-selector-preview-container'>
                     <ColorPickerPopout color={color} handleBackgroundColor={handlebackgroundColor} isPickerVisible={isPickerVisible} setPickerVisible={setPickerVisible} />
                 </div>
-                <UIPreview  campaignInfo={campaignInfo}/>
+                <UIPreview campaignInfo={campaignInfo} />
             </div>
             <div className='editor'>
                 <ToolbarContext.Provider value={{ headline, content, image, cta }}>
-                <ToolbarComponent setActiveTool={handleActiveTool} />
+                    <ToolbarComponent setActiveTool={handleActiveTool} />
                 </ToolbarContext.Provider>
                 <div className='active-tool-container'>
                     {MemoizedActiveTool}
