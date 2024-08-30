@@ -16,7 +16,6 @@ const Home = () => {
                 </div>
             </div>
             <div className="home-content"> 
-                <div className="side-bar-nav"></div>
                 <div className="main-content">
                     <UIEditor />
                 </div>
