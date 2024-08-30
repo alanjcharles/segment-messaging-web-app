@@ -10,6 +10,7 @@
     max-height: 550px;
     height: 550px;
     min-height: 550px;
+    border: none;
 }
 
 .ui-preview-container {
@@ -19,6 +20,7 @@
     align-items: center;
     height: 90%;
     width: 93%;
+    border: none;
 }
 
 
@@ -52,7 +54,8 @@
 
 
 .headline-preview {
-    font-family: "Twilio-Bold";
+    /* font-family: "Twilio-Bold"; */
+    font-weight: 500;
     font-size: 2rem;
     color: #121C2D;
 }

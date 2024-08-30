@@ -15,6 +15,8 @@ import CTAComponent from '../../Components/UIEditor/CTAComponent/CTAComponent';
 import UIPreview from '../../Components/UIEditor/UIPreview/UIPreview';
 import ActiveTool from '../../Components/UIEditor/ActiveTool/ActiveTool';
 import ColorPickerPopout from '../../Components/UIEditor/ColorSelector/ColorPickerPopout';
+import logoGif from "../../assets/logo.gif";
+
 // Import all Froala Editor plugins;
 // import 'froala-editor/js/plugins.pkgd.min.js';
 
@@ -50,6 +52,7 @@ export enum ToolType {
     CTA = "cta",
 }
 
+
 const UIEditor = () => {
     const [model, setModel] = useState("Example Set");
     const [headline, setHeadline] = useState("");
@@ -63,7 +66,7 @@ const UIEditor = () => {
     const [color, setColor] = useState('#fff');
     const [isPickerVisible, setPickerVisible] = useState(false);
     const [isButtonPickerVisible, setButtonPickerVisible] = useState(false);
-
+    const [startCampaign, setStartCampaign] = useState(false);
     const [addButton, toggleAddButton] = useState(false);
     const [activeTool, setActiveTool] = useState(ToolType.Headline);
     const [campaignInfo, setCampaignInfo] = useState({
@@ -184,25 +187,41 @@ const UIEditor = () => {
         setCampaignInfo({ ...campaignInfo, backgroundColor: color.hex });
     }
 
-
+    const handleStartCampaign = () => { 
+        setStartCampaign(true);   
+     }
 
     return (
         <div className="ui-editor-container" id="editor">
-            <div className='editor-preview'>
-                <h1 className='ui-editor-title'>Campaign Preview</h1>
-                <div className='color-selector-preview-container'>
-                    <ColorPickerPopout color={color} handleBackgroundColor={handlebackgroundColor} isPickerVisible={isPickerVisible} setPickerVisible={setPickerVisible} />
+            {startCampaign ? (
+                <div className="start-campaign-container">
+                    <h1 className="start-campaign-title">Campaign Started!</h1>
+                    <img src={logoGif} alt="logo" className="start-campaign-gif" />
                 </div>
-                <UIPreview campaignInfo={campaignInfo} />
-            </div>
-            <div className='editor'>
-                <ToolbarContext.Provider value={{ headline, content, image, cta }}>
-                    <ToolbarComponent setActiveTool={handleActiveTool} />
-                </ToolbarContext.Provider>
-                <div className='active-tool-container'>
-                    {MemoizedActiveTool}
-                </div>
-            </div>
+                ) : (
+            <><div className='editor-preview'>
+                        <h1 className='ui-editor-title'>Campaign Preview</h1>
+                        <div className='color-selector-preview-container'>
+                            <ColorPickerPopout color={color} handleBackgroundColor={handlebackgroundColor} isPickerVisible={isPickerVisible} setPickerVisible={setPickerVisible} />
+                        </div>
+                        <UIPreview campaignInfo={campaignInfo} />
+                        <div>
+                            <button 
+                            className='start-campaign-button'
+                            onClick={handleStartCampaign}
+                            >
+                                Start Campaign
+                            </button>
+                        </div>
+                    </div><div className='editor'>
+                            <ToolbarContext.Provider value={{ headline, content, image, cta }}>
+                                <ToolbarComponent setActiveTool={handleActiveTool} />
+                            </ToolbarContext.Provider>
+                            <div className='active-tool-container'>
+                                {MemoizedActiveTool}
+                            </div>
+                        </div></>
+            )}
         </div>
     );
 }
